@@ -65,5 +65,7 @@ func hudWasHidden(hud: DXProgressHUD) {
 
 
 **注意：bottomj仅纯文本模式下有效**
+
 文件进行了拆分,便于参考学习
+
 本文参考了`powfulhong`[MBProgressHUDForSwift](https://github.com/powfulhong/MBProgressHUDForSwift)
