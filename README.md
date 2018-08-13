@@ -1,7 +1,7 @@
 # DXProgressHUD_Swift
 
-![demo](./Other/ScreenShots/wechatplugin.png)
-![demo1](./Other/ScreenShots/wechatplugin.png)
+![demo](https://github.com/dongxiexidu/DXProgressHUD_Swift/blob/master/demo.gif)
+![horizontal](https://github.com/dongxiexidu/DXProgressHUD_Swift/blob/master/horizontal.gif)
 
 
 - [x] 支持自定义View
