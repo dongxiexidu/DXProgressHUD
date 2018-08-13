@@ -43,7 +43,7 @@
     // myProgressTask uses the HUD instance to update progress
     HUD!.showWhileExecuting({ [unowned self] () -> Void in
         self.myProgressTask()
-        }, animated: true)
+    }, animated: true)
 }
 
 func myProgressTask() {
