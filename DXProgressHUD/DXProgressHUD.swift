@@ -120,7 +120,6 @@ class DXProgressHUD: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        
         self.contentMode = UIViewContentMode.center
         self.autoresizingMask = [UIViewAutoresizing.flexibleTopMargin, UIViewAutoresizing.flexibleBottomMargin, UIViewAutoresizing.flexibleLeftMargin, UIViewAutoresizing.flexibleRightMargin]
         self.isOpaque = false

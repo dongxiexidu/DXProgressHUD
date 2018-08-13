@@ -50,8 +50,8 @@
 		11B8565821218BB300BED65B /* DXProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				11B8565921218BB300BED65B /* DXBarProgressView.swift */,
 				11B8565A21218BB300BED65B /* DXConfig.swift */,
+				11B8565921218BB300BED65B /* DXBarProgressView.swift */,
 				11B8565B21218BB300BED65B /* DXIndeterminatedRoundProgressView.swift */,
 				11B8565C21218BB300BED65B /* DXProgressHUD+Method.swift */,
 				11B8565D21218BB300BED65B /* DXProgressHUD.swift */,

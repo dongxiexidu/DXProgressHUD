@@ -23,8 +23,6 @@ extension DXProgressHUD{
         hud.removeFromSuperViewOnHide = true
         view.addSubview(hud)
         hud.show(animated)
-        
-        //        return hud
     }
     
     class func hideHUDForView(_ view: UIView, animated: Bool) -> Bool {

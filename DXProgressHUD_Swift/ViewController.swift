@@ -17,6 +17,7 @@ class ViewController: UIViewController,DXProgressHUDDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        title = "ProgressHUD"
         self.automaticallyAdjustsScrollViewInsets = false
     }
 
@@ -91,20 +92,20 @@ class ViewController: UIViewController,DXProgressHUDDelegate {
             }, animated: true)
     }
 
-    @IBAction func showWithLabelDeterminateHorizontalBar(sender: UIButton) {
-        HUD = DXProgressHUD(view: self.navigationController!.view)
-        self.navigationController!.view.addSubview(HUD!)
-        
-        // Set determinate bar mode
-        HUD!.mode = .determinateHorizontalBar
-        
-        HUD!.delegate = self
-        
-        // myProgressTask uses the HUD instance to update progress
-        HUD!.showWhileExecuting({ [unowned self] () -> Void in
-            self.myProgressTask()
-            }, animated: true)
-    }
+@IBAction func showWithLabelDeterminateHorizontalBar(sender: UIButton) {
+    HUD = DXProgressHUD(view: self.navigationController!.view)
+    self.navigationController!.view.addSubview(HUD!)
+    
+    // Set determinate bar mode
+    HUD!.mode = .determinateHorizontalBar
+    
+    HUD!.delegate = self
+    
+    // myProgressTask uses the HUD instance to update progress
+    HUD!.showWhileExecuting({ [unowned self] () -> Void in
+        self.myProgressTask()
+        }, animated: true)
+}
     // 1
     @IBAction func showWithCustomView(sender: UIButton) {
         HUD = DXProgressHUD(view: self.navigationController!.view)
@@ -198,8 +199,7 @@ class ViewController: UIViewController,DXProgressHUDDelegate {
         hud.detailsLabelFont = UIFont.systemFont(ofSize: 14)
         hud.margin = 10.0
         hud.removeFromSuperViewOnHide = true
-        
-        hud.hide(true, afterDelay: 3)
+        hud.hide(true, afterDelay: 1)
     }
 
     @IBAction func showWithColor(sender: UIButton) {
@@ -233,7 +233,7 @@ class ViewController: UIViewController,DXProgressHUDDelegate {
     // MARK: - Execution code
     func myTask() {
         // Do something useful in here instead of sleeping...
-        sleep(3)
+        sleep(1)
     }
     
     func myProgressTask() {
@@ -248,7 +248,7 @@ class ViewController: UIViewController,DXProgressHUDDelegate {
     
     func myMixedTask() {
         // Indeterminate mode
-        sleep(2)
+        sleep(1)
         // Switch to determinate mode
         HUD!.mode = .determinate
         HUD!.labelText = "Progress"
