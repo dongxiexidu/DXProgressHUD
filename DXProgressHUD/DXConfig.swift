@@ -61,7 +61,7 @@ func MB_TEXTSIZE(_ text: String?, font: UIFont) -> CGSize {
         return CGSize.zero
     }
     
-    return textTemp.size(withAttributes: [NSAttributedStringKey.font: font])
+    return textTemp.size(withAttributes: [NSAttributedString.Key.font: font])
 }
 
 func MB_MULTILINE_TEXTSIZE(_ text: String?, font: UIFont, maxSize: CGSize, mode: NSLineBreakMode) -> CGSize {
@@ -69,5 +69,5 @@ func MB_MULTILINE_TEXTSIZE(_ text: String?, font: UIFont, maxSize: CGSize, mode:
         return CGSize.zero
     }
     
-    return textTemp.boundingRect(with: maxSize, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil).size
+    return textTemp.boundingRect(with: maxSize, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil).size
 }

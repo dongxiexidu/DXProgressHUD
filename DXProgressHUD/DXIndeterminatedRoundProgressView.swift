@@ -42,7 +42,7 @@ class DXIndeterminatedRoundProgressView: UIView {
         circleLayer.strokeColor = lineColor.cgColor
         circleLayer.lineWidth = 2.0
         circleLayer.fillColor = UIColor.clear.cgColor
-        circleLayer.lineCap = kCALineCapRound
+        circleLayer.lineCap = CAShapeLayerLineCap.round
         
         self.layer.addSublayer(circleLayer)
         
@@ -54,14 +54,14 @@ class DXIndeterminatedRoundProgressView: UIView {
         animationForStrokeEnd.fromValue = 0.0
         animationForStrokeEnd.toValue = 1.0
         animationForStrokeEnd.duration = 0.4
-        animationForStrokeEnd.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        animationForStrokeEnd.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
         
         let animationForStrokeStart = CABasicAnimation(keyPath: "strokeStart")
         animationForStrokeStart.fromValue = 0.0
         animationForStrokeStart.toValue = 1.0
         animationForStrokeStart.duration = 0.4
         animationForStrokeStart.beginTime = 0.5
-        animationForStrokeStart.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        animationForStrokeStart.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
         
         let animationGroup = CAAnimationGroup()
         animationGroup.animations = [animationForStrokeEnd, animationForStrokeStart]

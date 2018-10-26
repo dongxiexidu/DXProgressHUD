@@ -120,8 +120,8 @@ class DXProgressHUD: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.contentMode = UIViewContentMode.center
-        self.autoresizingMask = [UIViewAutoresizing.flexibleTopMargin, UIViewAutoresizing.flexibleBottomMargin, UIViewAutoresizing.flexibleLeftMargin, UIViewAutoresizing.flexibleRightMargin]
+        self.contentMode = UIView.ContentMode.center
+        self.autoresizingMask = [UIView.AutoresizingMask.flexibleTopMargin, UIView.AutoresizingMask.flexibleBottomMargin, UIView.AutoresizingMask.flexibleLeftMargin, UIView.AutoresizingMask.flexibleRightMargin]
         self.isOpaque = false
         self.backgroundColor = UIColor.clear
         self.alpha = 0.0
@@ -154,7 +154,7 @@ class DXProgressHUD: UIView {
         useAnimation = animated
         if graceTime > 0.0 {
             let newGraceTimer: Timer = Timer(timeInterval: graceTime, target: self, selector: #selector(handleGraceTimer), userInfo: nil, repeats: false)
-            RunLoop.current.add(newGraceTimer, forMode: RunLoopMode.commonModes)
+            RunLoop.current.add(newGraceTimer, forMode: RunLoop.Mode.common)
             graceTimer = newGraceTimer
         }
             // ... otherwise show the HUD imediately
@@ -370,7 +370,7 @@ class DXProgressHUD: UIView {
 
         switch self.mode {
         case .indeterminate:
-            let activityIndicator = isActivityIndicator ? (self.indicator as! UIActivityIndicatorView) : UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+            let activityIndicator = isActivityIndicator ? (self.indicator as! UIActivityIndicatorView) : UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
             
             if !isActivityIndicator {
                 indicator?.removeFromSuperview()
@@ -430,11 +430,11 @@ class DXProgressHUD: UIView {
     
     // MARK: - Notificaiton
     fileprivate func registerForNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(statusBarOrientationDidChange), name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(statusBarOrientationDidChange), name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
     }
     
     fileprivate func unregisterFromNotifications() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
     }
     
     @objc func statusBarOrientationDidChange(_ notification: Notification) {
