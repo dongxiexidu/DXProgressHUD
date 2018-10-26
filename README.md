@@ -1,7 +1,7 @@
 # DXProgressHUD_Swift
 
-![demo](./Other/ScreenShots/wechatplugin.png)
-![demo1](./Other/ScreenShots/wechatplugin.png)
+![demo](https://github.com/dongxiexidu/DXProgressHUD_Swift/blob/master/demo.gif)
+![horizontal](https://github.com/dongxiexidu/DXProgressHUD_Swift/blob/master/horizontal.gif)
 
 
 - [x] 支持自定义View
@@ -43,7 +43,7 @@
     // myProgressTask uses the HUD instance to update progress
     HUD!.showWhileExecuting({ [unowned self] () -> Void in
         self.myProgressTask()
-        }, animated: true)
+    }, animated: true)
 }
 
 func myProgressTask() {
@@ -65,5 +65,7 @@ func hudWasHidden(hud: DXProgressHUD) {
 
 
 **注意：bottomj仅纯文本模式下有效**
+
 文件进行了拆分,便于参考学习
+
 本文参考了`powfulhong`[MBProgressHUDForSwift](https://github.com/powfulhong/MBProgressHUDForSwift)
