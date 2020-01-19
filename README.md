@@ -3,7 +3,7 @@
 ![demo](https://github.com/dongxiexidu/DXProgressHUD_Swift/blob/master/demo.gif)
 ![horizontal](https://github.com/dongxiexidu/DXProgressHUD_Swift/blob/master/horizontal.gif)
 
-- [x] 适配了Swift4.2
+- [x] 适配了Swift5
 - [x] 支持自定义View
 - [x] 适配了手机横屏显示
 - [x] 支持水平进度条显示
@@ -62,9 +62,6 @@ func hudWasHidden(hud: DXProgressHUD) {
     HUD = nil
 }
 ```
-
-
-**注意：bottomj仅纯文本模式下有效**
 
 文件进行了拆分,便于参考学习
 
