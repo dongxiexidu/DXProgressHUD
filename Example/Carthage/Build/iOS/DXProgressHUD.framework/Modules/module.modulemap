@@ -1,0 +1,11 @@
+framework module DXProgressHUD {
+  umbrella header "DXProgressHUD.h"
+
+  export *
+  module * { export * }
+}
+
+module DXProgressHUD.Swift {
+    header "DXProgressHUD-Swift.h"
+    requires objc
+}

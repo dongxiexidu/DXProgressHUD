@@ -11,7 +11,7 @@ import UIKit
 //MARK: - Extension UIView
 extension UIView {
     func dx_updateUI() {
-        DispatchQueue.main.async { () -> Void in
+        DispatchQueue.main.async {
             self.setNeedsLayout()
             self.setNeedsDisplay()
         }
@@ -37,7 +37,7 @@ class DXRoundProgressView: UIView {
             self.dx_updateUI()
         }
     }
-    
+    // 环形
     var annular: Bool = false {
         didSet {
             self.dx_updateUI()

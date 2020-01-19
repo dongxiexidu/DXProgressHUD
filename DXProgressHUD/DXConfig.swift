@@ -9,23 +9,23 @@
 import UIKit
 
 //MARK: - DXProgressHUDDelegate
-protocol DXProgressHUDDelegate {
+public protocol DXProgressHUDDelegate {
 
 }
 // 可选方法
-extension DXProgressHUDDelegate {
+public extension DXProgressHUDDelegate {
     func hudWasHidden(_ hud: DXProgressHUD){
         
     }
 }
 
 //MARK: - ENUM
-enum DXProgressHUDMode: Int {
+public  enum DXProgressHUDMode: Int {
     /// 不确定的
     case indeterminate = 0
     /// 环形不确定的
     case annularIndeterminate
-    /// 确定的
+    /// 固定的
     case determinate
     case determinateHorizontalBar
     case annularDeterminate
@@ -33,7 +33,7 @@ enum DXProgressHUDMode: Int {
     case text
 }
 
-enum DXProgressHUDAnimation: Int {
+public enum DXProgressHUDAnimation: Int {
     case fade = 0
     case zoom
     case zoomOut
@@ -41,14 +41,14 @@ enum DXProgressHUDAnimation: Int {
 }
 
 /// 仅仅在only text 模式下有效
-enum DXProgressPosition: Int {
+public enum DXProgressPosition: Int {
     case center = 0
     case bottom
 }
 
 //MARK: - Global var and func
-typealias DXProgressHUDCompletionBlock = () -> Void
-typealias DXProgressHUDExecutionClosures = () -> Void
+public typealias DXProgressHUDCompletionBlock = () -> Void
+public typealias DXProgressHUDExecutionClosures = () -> Void
 
 
 let kPadding: CGFloat = 4.0
@@ -56,7 +56,7 @@ let kLabelFontSize: CGFloat = 16.0
 let kDetailsLabelFontSize: CGFloat = 12.0
 let kBottomPadding: CGFloat = 10.0
 
-func MB_TEXTSIZE(_ text: String?, font: UIFont) -> CGSize {
+public func MB_TEXTSIZE(_ text: String?, font: UIFont) -> CGSize {
     guard let textTemp = text, textTemp.count > 0 else {
         return CGSize.zero
     }
@@ -64,7 +64,7 @@ func MB_TEXTSIZE(_ text: String?, font: UIFont) -> CGSize {
     return textTemp.size(withAttributes: [NSAttributedString.Key.font: font])
 }
 
-func MB_MULTILINE_TEXTSIZE(_ text: String?, font: UIFont, maxSize: CGSize, mode: NSLineBreakMode) -> CGSize {
+public func MB_MULTILINE_TEXTSIZE(_ text: String?, font: UIFont, maxSize: CGSize, mode: NSLineBreakMode) -> CGSize {
     guard let textTemp = text, textTemp.count > 0 else {
         return CGSize.zero
     }

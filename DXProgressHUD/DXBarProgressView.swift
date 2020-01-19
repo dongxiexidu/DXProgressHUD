@@ -10,25 +10,25 @@ import UIKit
 
 class DXBarProgressView: UIView {
 
-    var progress: Float {
+    var progress: Float = 0.0 {
         didSet {
             self.dx_updateUI()
         }
     }
     
-    var lineColor: UIColor {
+    var lineColor: UIColor = UIColor.white {
         didSet {
             self.dx_updateUI()
         }
     }
     
-    var progressRemainingColor: UIColor {
+    var progressRemainingColor: UIColor = UIColor.clear{
         didSet {
             self.dx_updateUI()
         }
     }
     
-    var progressColor: UIColor {
+    var progressColor: UIColor = UIColor.white {
         didSet {
             self.dx_updateUI()
         }
@@ -39,11 +39,6 @@ class DXBarProgressView: UIView {
     }
     
     override init(frame: CGRect) {
-        progress = 0.0
-        lineColor = UIColor.white
-        progressColor = UIColor.white
-        progressRemainingColor = UIColor.clear
-        
         super.init(frame: frame)
         
         self.backgroundColor = UIColor.clear

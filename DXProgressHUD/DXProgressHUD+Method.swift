@@ -8,16 +8,16 @@
 
 import UIKit
 
-extension DXProgressHUD{
+public extension DXProgressHUD{
 
     class func showHUDAddedTo(_ view: UIView, animated: Bool) -> DXProgressHUD {
         let hud: DXProgressHUD = DXProgressHUD(view: view)
         hud.removeFromSuperViewOnHide = true
         view.addSubview(hud)
         hud.show(animated)
-        
         return hud
     }
+    
     @objc class func showLoadingHUDAddedTo(_ view: UIView, animated: Bool){
         let hud: DXProgressHUD = DXProgressHUD(view: view)
         hud.removeFromSuperViewOnHide = true
@@ -29,10 +29,8 @@ extension DXProgressHUD{
         guard let hud = self.HUDForView(view) else {
             return false
         }
-        
         hud.removeFromSuperViewOnHide = true
         hud.hide(animated)
-        
         return true
     }
     
@@ -44,6 +42,7 @@ extension DXProgressHUD{
         }
         return huds.count
     }
+    
     @objc class func hideAllLoadingHUDsForView(_ view: UIView, animated: Bool) {
         let huds = DXProgressHUD.allHUDsForView(view)
         for hud in huds {

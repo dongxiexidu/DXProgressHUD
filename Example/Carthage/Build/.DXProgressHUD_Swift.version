@@ -1,0 +1,19 @@
+{
+  "Mac" : [
+
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "commitish" : "25829441b6474afc0a7df8b505140c222ad2eeee",
+  "iOS" : [
+    {
+      "name" : "DXProgressHUD",
+      "hash" : "1c70ee5c4eb028d4d465e1a26c0f3f5622ac8d73310c80402569f233d1ae3642",
+      "swiftToolchainVersion" : "5.1.2 (swiftlang-1100.0.278 clang-1100.0.33.9)"
+    }
+  ]
+}

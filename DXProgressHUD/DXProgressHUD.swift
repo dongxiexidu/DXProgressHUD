@@ -8,10 +8,10 @@
 
 import UIKit
 
-class DXProgressHUD: UIView {
+public class DXProgressHUD: UIView {
 
-    fileprivate var useAnimation: Bool = true
     fileprivate var closureForExecution: DXProgressHUDExecutionClosures?
+    fileprivate var isUseAnimation: Bool = true
     fileprivate var label: UILabel!
     fileprivate var detailsLabel: UILabel!
     fileprivate var rotationTransform: CGAffineTransform = CGAffineTransform.identity
@@ -21,87 +21,96 @@ class DXProgressHUD: UIView {
     fileprivate var minShowTimer: Timer?
     fileprivate var showStarted: Date?
     
-    var customView: UIView? {
+    public var customView: UIView? {
         didSet {
-            self.updateIndicators()
-            self.dx_updateUI()
+            DispatchQueue.main.async {
+                self.updateIndicators()
+                self.dx_updateUI()
+            }
         }
     }
     /// toast 位置
-    var position = DXProgressPosition.center {
+    public var position = DXProgressPosition.center {
         didSet {
             self.dx_updateUI()
         }
     }
     
-    var animationType = DXProgressHUDAnimation.fade
-    var mode = DXProgressHUDMode.indeterminate {
+    public var animationType = DXProgressHUDAnimation.fade
+    public var mode = DXProgressHUDMode.indeterminate {
         didSet {
-            self.updateIndicators()
+            DispatchQueue.main.async {
+                self.updateIndicators()
+                self.dx_updateUI()
+            }
+        }
+    }
+    // 文字过多,不会换行,需要换行使用detailsLabelText
+    public var labelText: String? {
+        didSet {
+            DispatchQueue.main.async {
+                self.label.text = self.labelText
+            }
             self.dx_updateUI()
         }
     }
-    var labelText: String? {
-        didSet {
-            label.text = labelText
-            self.dx_updateUI()
-        }
-    }
-    var detailsLabelText: String? {
+    // 文字过多,自动换行
+    public var detailsLabelText: String? {
         didSet {
             detailsLabel.text = detailsLabelText
             self.dx_updateUI()
         }
     }
-    var opacity = 0.8
-    var color: UIColor?
-    var labelFont = UIFont.boldSystemFont(ofSize: kLabelFontSize) {
+    public var opacity = 0.8
+    public var color: UIColor?
+    public var labelFont = UIFont.boldSystemFont(ofSize: kLabelFontSize) {
         didSet {
             label.font = labelFont
             self.dx_updateUI()
         }
     }
-    var labelColor = UIColor.white {
+    public var labelColor = UIColor.white {
         didSet {
             label.textColor = labelColor
             self.dx_updateUI()
         }
     }
-    var detailsLabelFont = UIFont.boldSystemFont(ofSize: kDetailsLabelFontSize) {
+    public var detailsLabelFont = UIFont.boldSystemFont(ofSize: kDetailsLabelFontSize) {
         didSet {
             detailsLabel.font = detailsLabelFont
             self.dx_updateUI()
         }
     }
-    var detailsLabelColor = UIColor.white {
+    public var detailsLabelColor = UIColor.white {
         didSet {
             detailsLabel.textColor = detailsLabelColor
             self.dx_updateUI()
         }
     }
-    var activityIndicatorColor = UIColor.white {
+    public var activityIndicatorColor = UIColor.white {
         didSet {
-            self.updateIndicators()
-            self.dx_updateUI()
+            DispatchQueue.main.async {
+                self.updateIndicators()
+                self.dx_updateUI()
+            }
         }
     }
-    var xOffset = 0.0
-    var yOffset = 0.0
-    var dimBackground = false
-    var margin = 20.0
-    var cornerRadius = 10.0
-    var graceTime = 0.0
-    var minShowTime = 0.0
-    var removeFromSuperViewOnHide = false
-    var minSize: CGSize = CGSize.zero
-    var square = false
-    var size: CGSize = CGSize.zero
+    public var xOffset = 0.0
+    public var yOffset = 0.0
+    public var dimBackground = false
+    public var margin = 20.0
+    public var cornerRadius = 10.0
+    public var graceTime = 0.0
+    public var minShowTime = 0.0
+    public var removeFromSuperViewOnHide = false
+    public var minSize: CGSize = CGSize.zero
+    public var isSquare = false
+    public var size: CGSize = CGSize.zero
     
     var taskInprogress = false
     
-    var progress: Float = 0.0 {
+    public var progress: Float = 0.0 {
         didSet {
-           // self.indicator?.setValue(progress, forKeyPath: "progress")
             if let cator = indicator as? DXRoundProgressView {
                 cator.progress = progress
             }
@@ -112,12 +121,12 @@ class DXProgressHUD: UIView {
         }
     }
     
-    var completionBlock: DXProgressHUDCompletionBlock?
+    fileprivate var completionBlock: DXProgressHUDCompletionBlock?
     
-    var delegate: DXProgressHUDDelegate?
+    public var delegate: DXProgressHUDDelegate?
     
     // MARK: - Lifecycle
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         
         self.contentMode = UIView.ContentMode.center
@@ -130,13 +139,13 @@ class DXProgressHUD: UIView {
         self.updateIndicators()
     }
     
-    convenience init(view: UIView?) {
+    convenience public init(view: UIView?) {
         assert(view != nil, "View must not be nil.")
         
         self.init(frame: view!.bounds)
     }
     
-    convenience init(window: UIWindow) {
+    convenience public init(window: UIWindow) {
         self.init(view: window)
     }
     
@@ -149,9 +158,9 @@ class DXProgressHUD: UIView {
     }
     
     // MARK: - Show & Hide
-    func show(_ animated: Bool) {
+    public func show(_ animated: Bool) {
         assert(Thread.isMainThread, "DXProgressHUD needs to be accessed on the main thread.")
-        useAnimation = animated
+        isUseAnimation = animated
         if graceTime > 0.0 {
             let newGraceTimer: Timer = Timer(timeInterval: graceTime, target: self, selector: #selector(handleGraceTimer), userInfo: nil, repeats: false)
             RunLoop.current.add(newGraceTimer, forMode: RunLoop.Mode.common)
@@ -159,13 +168,13 @@ class DXProgressHUD: UIView {
         }
             // ... otherwise show the HUD imediately
         else {
-            self.showUsingAnimation(useAnimation)
+            self.showUsingAnimation(isUseAnimation)
         }
     }
     
-    func hide(_ animated: Bool) {
+    public func hide(_ animated: Bool) {
         assert(Thread.isMainThread, "DXProgressHUD needs to be accessed on the main thread.")
-        useAnimation = animated
+        isUseAnimation = animated
         // If the minShow time is set, calculate how long the hud was shown,
         // and pospone the hiding operation if necessary
         if let showStarted = showStarted, minShowTime > 0.0 {
@@ -183,16 +192,16 @@ class DXProgressHUD: UIView {
         //            }
         //        }
         // ... otherwise hide the HUD immediately
-        self.hideUsingAnimation(useAnimation)
+        self.hideUsingAnimation(isUseAnimation)
     }
     
-    func hide(_ animated: Bool, afterDelay delay: TimeInterval) {
+    public func hide(_ animated: Bool, afterDelay delay: TimeInterval) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { () -> Void in
             self.hideDelayed(animated)
         }
     }
     
-    func hideDelayed(_ animated: Bool) {
+    public func hideDelayed(_ animated: Bool) {
         self.hide(animated)
     }
     
@@ -200,16 +209,16 @@ class DXProgressHUD: UIView {
     @objc func handleGraceTimer(_ theTimer: Timer) {
         // Show the HUD only if the task is still running
         if taskInprogress {
-            self.showUsingAnimation(useAnimation)
+            self.showUsingAnimation(isUseAnimation)
         }
     }
     
     @objc fileprivate func handleMinShowTimer(_ theTimer: Timer) {
-        self.hideUsingAnimation(useAnimation)
+        self.hideUsingAnimation(isUseAnimation)
     }
     
     // MARK: - View Hierrarchy
-    override func didMoveToSuperview() {
+    override public func didMoveToSuperview() {
         self.updateForCurrentOrientationAnimaged(false)
     }
     
@@ -275,16 +284,13 @@ class DXProgressHUD: UIView {
             self.removeFromSuperview()
         }
         
-        if completionBlock != nil {
-            self.completionBlock!()
-            self.completionBlock = nil
-        }
-        
+        self.completionBlock?()
+        self.completionBlock = nil
         delegate?.hudWasHidden(self)
     }
     
     // MARK: - Threading
-    func showWhileExecuting(_ closures: @escaping DXProgressHUDExecutionClosures, animated: Bool) {
+    public func showWhileExecuting(_ closures: @escaping DXProgressHUDExecutionClosures, animated: Bool) {
         // Launch execution in new thread
         taskInprogress = true
         closureForExecution = closures
@@ -295,21 +301,21 @@ class DXProgressHUD: UIView {
         self.show(animated)
     }
     
-    func showAnimated(_ animated: Bool, whileExecutingBlock block: @escaping ()->()) {
+    public func showAnimated(_ animated: Bool, whileExecutingBlock block: @escaping ()->()) {
         self.showAnimated(animated, whileExecutingBlock: block, onQueue: DispatchQueue.global(), completionBlock: nil)
         //self.showAnimated(animated, whileExecutingBlock: block, onQueue: DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default), completionBlock: nil)
     }
     
-    func showAnimated(_ animated: Bool, whileExecutingBlock block: @escaping ()->(), completionBlock completion: DXProgressHUDCompletionBlock?) {
+    public func showAnimated(_ animated: Bool, whileExecutingBlock block: @escaping ()->(), completionBlock completion: DXProgressHUDCompletionBlock?) {
         self.showAnimated(animated, whileExecutingBlock: block, onQueue: DispatchQueue.global(), completionBlock: completion)
         //self.showAnimated(animated, whileExecutingBlock: block, onQueue: DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default), completionBlock: completion)
     }
     
-    func showAnimated(_ animated: Bool, whileExecutingBlock block: @escaping ()->(), onQueue queue: DispatchQueue) {
+    public func showAnimated(_ animated: Bool, whileExecutingBlock block: @escaping ()->(), onQueue queue: DispatchQueue) {
         self.showAnimated(animated, whileExecutingBlock: block, onQueue: queue, completionBlock: nil)
     }
     
-    func showAnimated(_ animated: Bool, whileExecutingBlock block: @escaping ()->(), onQueue queue: DispatchQueue, completionBlock completion: DXProgressHUDCompletionBlock?) {
+    public func showAnimated(_ animated: Bool, whileExecutingBlock block: @escaping ()->(), onQueue queue: DispatchQueue, completionBlock completion: DXProgressHUDCompletionBlock?) {
         taskInprogress = true
         self.completionBlock = completion
         queue.async(execute: { () -> Void in
@@ -323,7 +329,7 @@ class DXProgressHUD: UIView {
     
     @objc func launchExecution() {
         autoreleasepool { () -> () in
-            closureForExecution!()
+            closureForExecution?()
             DispatchQueue.main.async(execute: { () -> Void in
                 self.cleanUp()
             })
@@ -334,7 +340,7 @@ class DXProgressHUD: UIView {
         taskInprogress = false
         closureForExecution = nil
         
-        self.hide(useAnimation)
+        self.hide(isUseAnimation)
     }
     
     // MARK: - UI
@@ -364,41 +370,39 @@ class DXProgressHUD: UIView {
     }
     
     fileprivate func updateIndicators() {
-        let isActivityIndicator: Bool = self.indicator is UIActivityIndicatorView
-        let isRoundIndicator: Bool = self.indicator is DXRoundProgressView
-        let isIndeterminatedRoundIndicator: Bool = self.indicator is DXIndeterminatedRoundProgressView
-
-        switch self.mode {
-        case .indeterminate:
-            let activityIndicator = isActivityIndicator ? (self.indicator as! UIActivityIndicatorView) : UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+            let isActivityIndicator: Bool = self.indicator is UIActivityIndicatorView
+            let isRoundIndicator: Bool = self.indicator is DXRoundProgressView
+            let isIndeterminatedRoundIndicator: Bool = self.indicator is DXIndeterminatedRoundProgressView
             
-            if !isActivityIndicator {
-                indicator?.removeFromSuperview()
-                indicator = activityIndicator
+            switch self.mode {
+            case .indeterminate:
+                let activityIndicator = isActivityIndicator ? (self.indicator as! UIActivityIndicatorView) : UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
                 
-                activityIndicator.startAnimating()
-                addSubview(activityIndicator)
-            }
-            activityIndicator.color = activityIndicatorColor
-            
-        case .annularIndeterminate:
-            if !isIndeterminatedRoundIndicator {
-                indicator?.removeFromSuperview()
-                indicator = DXIndeterminatedRoundProgressView()
-                addSubview(self.indicator!)
-            }
-            
-        case .determinateHorizontalBar:
-            indicator?.removeFromSuperview()
-            indicator = DXBarProgressView()
-            self.addSubview(self.indicator!)
-            
-        case .determinate:
-            fallthrough
-            
-        case .annularDeterminate:
-            if !isRoundIndicator {
-                DispatchQueue.main.async {
+                if !isActivityIndicator {
+                    self.indicator?.removeFromSuperview()
+                    self.indicator = activityIndicator
+                    
+                    activityIndicator.startAnimating()
+                    self.addSubview(activityIndicator)
+                }
+                activityIndicator.color = self.activityIndicatorColor
+            case .annularIndeterminate:
+                if !isIndeterminatedRoundIndicator {
+                    self.indicator?.removeFromSuperview()
+                    self.indicator = DXIndeterminatedRoundProgressView()
+                    self.addSubview(self.indicator!)
+                }
+                
+            case .determinateHorizontalBar:
+                self.indicator?.removeFromSuperview()
+                self.indicator = DXBarProgressView()
+                self.addSubview(self.indicator!)
+                
+            case .determinate:
+                fallthrough
+                
+            case .annularDeterminate:
+                if !isRoundIndicator {
                     self.indicator?.removeFromSuperview()
                     self.indicator = DXRoundProgressView()
                     self.addSubview(self.indicator!)
@@ -407,25 +411,20 @@ class DXProgressHUD: UIView {
                         (self.indicator as! DXRoundProgressView).annular = true
                     }
                 }
+            case .customView where self.customView != self.indicator:
+                self.indicator?.removeFromSuperview()
+                self.indicator = self.customView
+                if let cator = self.indicator {
+                    self.addSubview(cator)
+                }
+            case .text:
+                self.indicator?.removeFromSuperview()
+                self.indicator = nil
+                
+            default:
+                break
             }
-
-        case .customView where self.customView != self.indicator:
-            indicator?.removeFromSuperview()
-            indicator = self.customView
-            if let cator = indicator {
-                addSubview(cator)
-            }
-        case .text:
-            indicator?.removeFromSuperview()
-            indicator = nil
-            
-        default:
-            break
-        }
-        indicator?.translatesAutoresizingMaskIntoConstraints = false
-        
-       // indicator?.setValue(progress, forKeyPath: "progress")
-        
+            self.indicator?.translatesAutoresizingMaskIntoConstraints = false
     }
     
     // MARK: - Notificaiton
@@ -452,7 +451,7 @@ class DXProgressHUD: UIView {
     }
     
     // MARK: - Layout
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         
         // Entirely cover the parent view
@@ -562,7 +561,7 @@ class DXProgressHUD: UIView {
         detailsLabel.frame = detailsLabelF
         
         // Enforce minsize and quare rules
-        if square {
+        if isSquare {
             let maxWH: CGFloat = max(totalSize.width, totalSize.height);
             if maxWH <= bounds.size.width - 2 * CGFloat(margin) {
                 totalSize.width = maxWH
@@ -582,7 +581,7 @@ class DXProgressHUD: UIView {
     }
     
     // MARK: - BG Drawing
-    override func draw(_ rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         let context: CGContext = UIGraphicsGetCurrentContext()!
         UIGraphicsPushContext(context)
         
